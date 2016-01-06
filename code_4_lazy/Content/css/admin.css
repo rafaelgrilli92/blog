@@ -1,0 +1,17 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.form-group .btn .fa, table .fa  {
+    font-size: 1.5em;
+}
+
+table .fa-remove {
+    color: #ed2020;
+}
+
+    table .fa-remove:hover {
+        color: #a41717;
+    }

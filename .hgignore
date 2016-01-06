@@ -1,0 +1,3 @@
+syntax: glob 
+packages/
+code_4_lazy/obj/

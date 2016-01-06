@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Menu = "newsletter";
+    ViewBag.Title = "Newsletter";
+    ViewBag.Imagem = "og_image_home.jpg";
+    ViewBag.Descricao = "Newsletter Code4Lazy. Novidades, descontos e promoções. Inscreva-se! (:";
+}
+<div>
+    <h1><span class="fa fa-envelope"></span>&nbsp;Code4Lazy - Newsletter</h1>
+    <hr class="divider" />
+    <p>
+        Está com <strong>preguiça</strong> de ficar entrando todos os dias no meu blog ou me acompanhar pelo <u><a href="http://www.facebook.com/code4lazy" target="_blank">Facebook</a></u>,
+        mas quer ficar em dia com todos os meus posts, receber cupons de descontos e participar de promoções exclusivas?
+    </p>
+    <hr />
+    <div class="subscribe newsletter-central">
+        <h3>
+            Inscreva-se:
+        </h3>
+        <div class="input-group" id="EmailNewsLetter">
+            <input type="email" id="Email" class="form-control input-lg" placeholder="Digite seu E-mail" required>
+            <span class="input-group-btn">
+                <button id="btnInscreverEmail" class="btn btn-success btn-lg" type="submit">
+                    Enviar
+                </button>
+            </span>
+        </div>
+        <h4><i>PS: Prometo que não enviarei SPAM :)</i></h4>
+    </div>
+    <hr />
+    <p>
+        <strong>
+            Logo de cara você receberá um cupom exclusivo de 15% de desconto em qualquer livro na <u><a href="http://www.casadocodigo.com.br/" target="_blank">CasaDoCódigo.com</a></u>
+        </strong>
+    </p>
+</div>
+<script>
+    $(function () {
+        $('#btnInscreverEmail').click(function () {
+            var email = $('#Email').val();
+            if (email != "") {
+                $(this).html('Enviando...').attr('disabled', 'disabled');
+                var parameters = JSON.stringify({ 'Email': email });
+                $.ajax({
+                    type: "POST",
+                    url: "/Newsletter/InscreverUsuario",
+                    data: parameters,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('.subscribe.newsletter-central').html('<div id="newsletter" class="well"><h4 style="color: #0ca700;"><strong>E-mail cadastrado com sucesso! :)</strong></h4></div>');
+                    },
+                    error: function () {
+                        $('.subscribe.newsletter-central').html('<div id="newsletter" class="well"><h4 style="color: #e50000;"><strong>Algo errado aconteceu :(</strong></h4></div>');
+                    }
+                });
+            }
+        });
+    })
+</script>

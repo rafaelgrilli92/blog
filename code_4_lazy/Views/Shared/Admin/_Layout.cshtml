@@ -1,0 +1,39 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Code 4 Lazy</title>
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/css/admin.css" rel="stylesheet" />
+    <link href="~/Content/css/admin-menu.css" rel="stylesheet" >
+    
+</head>
+<body>
+    @Html.Partial("Admin/_MenuLateralEsquerdo")
+    <div id="container">
+        <header class="primary">
+            <span class="open icon">&#9776;</span>
+        </header>
+        <section id="scroller" class="overflow">
+            <div id="content">
+                @RenderBody()
+            </div>
+        </section>
+
+    </div>
+
+    <script src="~/Scripts/jquery-1.11.3.min.js"></script>
+    <script src="~/Scripts/admin-menu.js"></script>
+
+    <script>
+        var site = new Bamboo();
+    </script>
+
+</body>
+</html>

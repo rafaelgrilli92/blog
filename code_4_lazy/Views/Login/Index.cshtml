@@ -1,0 +1,61 @@
+﻿@{
+    Layout = null;
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Code 4 Lazy</title>
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body>
+    <link href="~/Content/css/login.css" rel="stylesheet" />
+    <div class="container">
+        <div class="row">
+            <div class="Absolute-Center is-Responsive">
+                <div id="logo-container"><h1>Code4Lazy</h1></div>
+                <div class="col-sm-12 col-md-10 col-md-offset-1">
+                    <form action="/Login/Autenticar" id="loginForm" method="post">
+                        <div class="form-group input-group input-group-lg">
+                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                            <input class="form-control" type="text" name='Login' placeholder="Usuário" />
+                        </div>
+                        <div class="form-group input-group input-group-lg">
+                            <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                            <input class="form-control" type="password" name='Senha' placeholder="Senha" />
+                        </div>
+                        <div class="form-group input-group-lg">
+                            <input id="btnEntrar" type="submit" value="Entrar" data-loading-text="Validando..." class="btn btn-lg btn-block btn-primary" />
+                            <div class="error-message">
+                                @Html.ValidationMessage("loginInvalido")
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/Scripts/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+    $(function () {
+        $('#btnEntrar').on('click', function () {
+            var $btn = $(this).button('loading')
+        });
+    });
+    </script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-66682021-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+﻿<nav>
+    <div class="navbar navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div id='cssmenu'>
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="logo">
+                        <a href="/">
+                            <img src="~/Content/img/logo-preto-64.png" class="img-logo" />
+                            <img src="~/Content/img/logo-preto-mobile.png" class="img-logo-mobile" />
+                        </a>
+                    </li>
+                    <li id="home" class="active">
+                        <a href='~/'>Home</a>
+                    </li>
+                    <li id="categorias" class='has-sub'>
+                        <a href='#'>Categorias</a>
+                        <ul>
+                            @foreach (code_4_lazy.Models.Categoria categoria in ViewBag.Categorias)
+                            {
+                                <li>@Html.ActionLink(categoria.NomeCategoria, "PostsCategoria", "Post", new { categoria = categoria.NomeCategoria }, null)</li>
+                            }
+                        </ul>
+                    </li>
+                    <li class="subscribe-mobile">
+                        <label>Novidades e Promoções:</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
+                            <input type="email" id="EmailMobile" class="form-control" placeholder="Digite seu E-mail" required>
+                            <span class="input-group-btn">
+                                <button id="btnInscreverEmailMobile" class="btn btn-success">
+                                    <span class="fa fa-send"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                @using (Html.BeginForm("BuscaPosts", "Post", FormMethod.Get, new { @class = "navbar-form navbar-right", role = "search" }))
+                {
+                    <a href="http://www.facebook.com/code4lazy" target="_blank" class="btn btn-primary facebook-link"><span class="fa fa-facebook"></span></a>
+                    <div class="input-group">
+                        <input type="text" name="str" class="form-control" placeholder="Buscar">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><span class="fa fa-search"></span></button>
+                        </span>
+                    </div><!-- /input-group -->
+                }
+
+            </div>
+        </div>
+    </div>
+</nav>
+<script>
+    $(function () {
+        $('#EmailMobile').on('focus', function (e) {
+            $('.navbar-left').css('display', 'block');
+            //$('#EmailMobile').focus();
+        });
+
+        $('#btnInscreverEmailMobile').click(function () {
+            var email = $('#EmailMobile').val();
+            if (email != "") {
+                $(this).attr('disabled', 'disabled');
+                var parameters = JSON.stringify({ 'Email': email });
+                $.ajax({
+                    type: "POST",
+                    url: "/Newsletter/InscreverUsuario",
+                    data: parameters,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('.subscribe-mobile').html('<div id="newsletter" class="well"><h4 style="color: #0ca700;"><strong>E-mail cadastrado com sucesso! :)</strong></h4></div>');
+                    },
+                    error: function () {
+                        $('.subscribe-mobile').html('<div id="newsletter" class="well"><h4 style="color: #e50000;"><strong>Algo errado aconteceu :(</strong></h4></div>');
+                    }
+                });
+            }
+        });
+    })
+</script>

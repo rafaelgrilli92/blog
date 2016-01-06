@@ -1,0 +1,72 @@
+﻿@model code_4_lazy.Models.Post
+
+@{
+    ViewBag.Title = "Dados";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+
+@*<script src="//cdn.ckeditor.com/4.5.2/standard/ckeditor.js"></script>*@
+<div class="row">
+    <div class="col-xs-12">
+        <form action="~/Admin/Posts/AdicionarAlterar" method="post" enctype="multipart/form-data">
+            @if (Model.Id != 0)
+            {
+                @Html.HiddenFor(p => p.Id)
+                @Html.HiddenFor(p => p.Imagem)
+            }
+            <br />
+            <div class="row">
+                <div class="form-group col-xs-12">
+                    <input type="submit" class="btn btn-success" value="Salvar" />
+                    @Html.ActionLink("Cancelar", "Posts", null, new { @class = "btn btn-warning" })
+                    @if (Model.Id != 0)
+                    {
+                        @Html.ActionLink("Pre-Visualização", "Index", "Post", new { postId = Model.Id, year = ((DateTime)Model.DataPublicacao).ToString("yyyy"), month = ((DateTime)Model.DataPublicacao).ToString("MM"), titulo = Model.Titulo.FriendlyUrl() }, new { @class = "btn btn-info", target= "_blank" });
+                    }
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-sm-7 col-md-4 col-lg-4">
+                    <label for="Titulo">Titulo</label>
+                    <input type="text" class="form-control" name="Titulo" placeholder="Titulo" value="@Model.Titulo">
+                </div>
+                <div class="form-group col-sm-5 col-md-3 col-lg-3">
+                    <label for="Categoria">Categoria</label>
+                    @Html.DropDownListFor(p => p.Categoria.Id, new SelectList(ViewBag.Categorias, "Id", "NomeCategoria"), "--- Selecione ---", new { @class = "form-control" })
+                </div>
+                <div class="form-group col-sm-7 col-md-3 col-lg-3">
+                    <label for="Titulo">Data Publicação</label>
+                    <input type="datetime" class="form-control" name="DataPublicacao" placeholder="Data Publicação" value="@(Model.DataPublicacao != null ? Model.DataPublicacao : DateTime.Now)">
+                </div>
+                <div class="form-group col-sm-4 col-md-2 col-lg-1">
+                    <div class="checkbox">
+                        <label>
+                            <br />
+                            <input type="checkbox" value="true" name="Publicado" checked=@Model.Publicado> Publicado
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-7">
+                    <label for="Descricao">Descrição</label>
+                    <input type="text" class="form-control" name="Descricao" placeholder="Descriçao" value="@Model.Descricao">
+                </div>
+                <div class="form-group col-sm-7 col-md-4 col-lg-4">
+                    <label for="file">Imagem</label>
+                    <input type="file" name="ArquivoImagem" id="ArquivoImagem" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-lg-11">
+                    <label for="Conteudo">Conteúdo</label>
+                    <textarea style="height: 700px;" name="Conteudo" id="Conteudo" class="form-control">@Model.Conteudo</textarea>
+                    <script>
+                        // extraPlugins needs to be set too
+                        //CKEDITOR.replace('Conteudo', { height: '30em' });
+                    </script>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

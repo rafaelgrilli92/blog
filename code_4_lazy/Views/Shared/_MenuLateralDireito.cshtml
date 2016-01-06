@@ -1,0 +1,61 @@
+﻿<nav>
+    <div class="col-sm-4 col-md-3 sidebar">
+        <div class="subscribe newsletter-lateral">
+            <h4><strong>Novidades e Promoções:</strong></h4>
+            <div class="input-group">
+                <span class="input-group-addon"><span class="fa fa-envelope"></span></span>
+                <input type="email" id="EmailLateral" class="form-control" placeholder="Digite seu E-mail" required>
+                <span class="input-group-btn">
+                    <button id="btnInscreverEmailLateral" class="btn btn-success">
+                        <span class="fa fa-send"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+        <div class="well sidebar-nav">
+            <ul class="nav">
+                <li>Últimos Posts</li>
+                <li><hr class="divider" /></li>
+                @foreach (code_4_lazy.Models.Post post in ViewBag.Posts)
+                {
+                    <li>@Html.ActionLink(post.Titulo, "Index", "Post", new { postId = post.Id, year = ((DateTime)post.DataPublicacao).ToString("yyyy"), month = ((DateTime)post.DataPublicacao).ToString("MM"), titulo = post.Titulo.FriendlyUrl() }, null)</li>
+                }
+            </ul>
+            <br />
+            <ul class="nav">
+                <li>Categorias</li>
+                <li><hr class="divider" /></li>
+                @foreach (code_4_lazy.Models.Categoria categoria in ViewBag.Categorias)
+                {
+                    <li>@Html.ActionLink(categoria.NomeCategoria, "PostsCategoria", "Post", new { categoria = categoria.NomeCategoria }, null)</li>
+                }
+            </ul>
+        </div>
+
+    </div>
+</nav>
+<script>
+    $(function () {
+        $('#btnInscreverEmailLateral').click(function () {
+            var email = $('#EmailLateral').val();
+            if (email != "") {
+                $(this).attr('disabled', 'disabled');
+                var parameters = JSON.stringify({ 'Email': email });
+                $.ajax({
+                    type: "POST",
+                    url: "/Newsletter/InscreverUsuario",
+                    data: parameters,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        $('.subscribe.newsletter-lateral').html('<div id="newsletterDireita" class="well"><h4 style="color: #0ca700;"><strong>E-mail cadastrado com sucesso! :)</strong></h4></div>');
+                    },
+                    error: function () {
+                        $('.subscribe.newsletter-lateral').html('<div id="newsletterDireita" class="well"><h4 style="color: #e50000;"><strong>Algo errado aconteceu :(</strong></h4></div>');
+                    }
+                });
+            }
+            
+        });
+    })
+</script>

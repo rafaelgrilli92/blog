@@ -1,0 +1,15 @@
+﻿<nav id="main-nav" class="navigation">
+    <div class="titulo-menu">Menu</div>
+    <ul>
+        <li class="menu-title"><span>Posts</span></li>
+        <li>@Html.ActionLink("Visualizar", "Posts")</li>
+        <li>@Html.ActionLink("Adicionar", "Dados")</li>
+        <li class="menu-title"><span>Categorias</span></li>
+        <li>@Html.ActionLink("Visualizar / Adicionar", "Categorias")</li>
+        @*<li><a href="#">Usuários</a></li>*@
+    </ul>
+    <ul class="ul-sair">
+        <li>@Html.ActionLink("Sair", "Sair", "Login")</li>
+    </ul>
+    
+</nav>

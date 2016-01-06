@@ -1,0 +1,39 @@
+﻿@{
+    ViewBag.Title = "Categorias";
+    Layout = "~/Views/Shared/Admin/_Layout.cshtml";
+}
+
+<h1>Categorias</h1>
+<br />
+<h4>Nova Categoria</h4>
+<form action="~/Admin/Categorias/AdicionarAlterar" method="post">
+    <div class="row">
+        <div class="form-group col-sm-8 col-md-6 col-lg-4">
+            @Html.TextBox("NomeCategoria", "", new { @class = "form-control input-lg" })
+        </div>
+        <div class="form-group col-sm-2 col-lg-1">
+            <button type="submit" class="btn btn-success btn-block" title="Adicionar Categoria"><span class="fa fa-plus"></span></button>
+        </div>
+    </div>
+</form>
+<hr class="divider" />
+@foreach (code_4_lazy.Models.Categoria categoria in ViewBag.Categorias)
+{
+    <form action="~/Admin/Categorias/AdicionarAlterar" method="post">
+        @Html.Hidden("Id", categoria.Id)
+        <div class="row">
+            <div class="form-group col-sm-8 col-md-6 col-lg-4">
+                <div class="input-group">
+                    <span class="input-group-addon">@categoria.Id</span>
+                    @Html.TextBox("NomeCategoria", categoria.NomeCategoria, new { @class = "form-control input-lg" })
+                </div>
+            </div>
+            <div class="form-group col-sm-2 col-lg-1">
+                <button type="submit" class="btn btn-success btn-block" title="Salvar"><span class="fa fa-save"></span></button>
+            </div>
+            <div class="form-group col-sm-2 col-lg-1">
+                <a href="~/Admin/Categorias/Excluir?id=@categoria.Id" class="btn btn-danger btn-block" title="Excluir"><span class="fa fa-remove"></span></a>
+            </div>
+        </div>
+    </form>
+}

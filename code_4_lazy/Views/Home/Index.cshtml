@@ -1,0 +1,107 @@
+﻿@using code_4_lazy.Models;
+
+@{
+    ViewBag.Menu = "home";
+    ViewBag.Title = "Simplificando a programação";
+    ViewBag.Imagem = "http://www.code4lazy.com/Content/img/og_image_home.jpg";
+    ViewBag.Descricao = "Code4lazy foi criado para descomplicar a vida dos preguiçosos de plantão. Com informações, dicas e tutoriais de forma rápida, simples e objetiva.";
+}
+
+@{
+    VisitaSiteDAO VisitaSiteDAO = new VisitaSiteDAO();
+    int qtde_visitas_site = VisitaSiteDAO.ObterQtdeVisitantesSite();
+
+    int qtde_visitas_posts = 0;
+    int qtde_likes_posts = 0;
+
+    foreach (code_4_lazy.Models.Post post in ViewBag.Posts)
+    {
+        qtde_visitas_posts += post.Visualizacoes;
+        qtde_likes_posts += post.Likes;
+    }
+}
+
+<div class="row dash-contador">
+    <div class="col-xs-4 visitas-site">
+        <span class="fa fa-globe"></span><span class="counter">@qtde_visitas_site</span>
+    </div>
+    <div class="col-xs-4 visitas-post">
+        <span class="fa fa-eye"></span><span class="counter">@qtde_visitas_posts</span>
+    </div>
+    <div class="col-xs-4 likes-post">
+        <span class="fa fa-heart"></span><span class="counter">@qtde_likes_posts</span>
+    </div>
+</div>
+<div class="row">
+    @foreach (code_4_lazy.Models.Post ultimoPost in ViewBag.Posts)
+    {
+        <div class="col-xs-12">
+            <div class="home-post-home">
+                <div class="home-post-cabecalho">
+                    <div class="home-post-home-data">@(((DateTime)ultimoPost.DataPublicacao).ToString("dd/MM/yyyy")) - <span class="novo">Novo!</span></div>
+                    <div class="home-post-home-titulo">@Html.ActionLink(ultimoPost.Titulo, "Index", "Post", new { postId = ultimoPost.Id, year = ((DateTime)ultimoPost.DataPublicacao).ToString("yyyy"), month = ((DateTime)ultimoPost.DataPublicacao).ToString("MM"), titulo = ultimoPost.Titulo.FriendlyUrl() }, null)</div>
+                </div>
+                <div class="home-post-home-descricao">@ultimoPost.Descricao</div>
+                <div class="home-post-home-link-categoria">
+                    @Html.ActionLink("#" + ultimoPost.Categoria.NomeCategoria, "PostsCategoria", "Post", new { categoria = ultimoPost.Categoria.NomeCategoria }, null)
+                </div>
+                <p>@Html.ActionLink("Visualizar Post »", "Index", "Post", new { postId = ultimoPost.Id, year = ((DateTime)ultimoPost.DataPublicacao).ToString("yyyy"), month = ((DateTime)ultimoPost.DataPublicacao).ToString("MM"), titulo = ultimoPost.Titulo.FriendlyUrl() }, new { @class = "btn btn-info" })</p>
+            </div>
+        </div>
+        break;
+    }
+
+</div>
+<div class="row">
+    @{
+        int count = 0;
+        foreach (code_4_lazy.Models.Post post in ViewBag.Posts)
+        {
+            if (count > 0)
+            {
+                <div class="col-md-6">
+                    <div class="box-post-home">
+                        <div class="box-post-cabecalho">
+                            <div class="box-post-home-data">@(((DateTime)post.DataPublicacao).ToString("dd/MM/yyyy"))</div>
+                            <div class="box-post-home-titulo">@Html.ActionLink(post.Titulo, "Index", "Post", new { postId = post.Id, year = ((DateTime)post.DataPublicacao).ToString("yyyy"), month = ((DateTime)post.DataPublicacao).ToString("MM"), titulo = post.Titulo.FriendlyUrl() }, null)</div>
+                        </div>
+                        <div class="box-post-home-conteudo">@post.Descricao</div>
+                        <div class="box-post-home-link-categoria">
+                            @Html.ActionLink("#" + post.Categoria.NomeCategoria, "PostsCategoria", "Post", new { categoria = post.Categoria.NomeCategoria }, null)
+                        </div>
+                        <p>@Html.ActionLink("Visualizar Post »", "Index", "Post", new { postId = post.Id, year = ((DateTime)post.DataPublicacao).ToString("yyyy"), month = ((DateTime)post.DataPublicacao).ToString("MM"), titulo = post.Titulo.FriendlyUrl() }, new { @class = "btn btn-info" })</p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                count++;
+            }
+        }
+    }
+</div><!--/row-->
+<h3>Dúvida ou Sugestão? Deixe seu comentário (:</h3>
+<hr class="divider" />
+<script src="http://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+<script src="~/Scripts/jquery.counterup.min.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $('.counter').counterUp({
+            delay: 20,
+            time: 1200
+        });
+    });
+</script>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'code4lazy';
+    var disqus_title = 'Code4Lazy';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>

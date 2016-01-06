@@ -1,0 +1,148 @@
+﻿@{
+    Layout = null;
+    string titulo = ViewBag.Title != null ? "| " + ViewBag.Title : "";
+    string imagem = ViewBag.Imagem;
+    string descricao = ViewBag.Descricao;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="google-site-verification" content="9dl7g9EfidPetfuqJyuixXFB9C87xk93j9-_5pPh17k" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="~/Content/img/favicon-32x32.png" sizes="32x32" />
+    <meta content='Rafael Grilli' name='author' />
+
+    <title>Code 4 Lazy @titulo</title>
+    <meta name="title" content="Code 4 lazy @titulo">
+    <meta property="og:title" content="Code 4 Lazy @titulo" />
+
+    <meta content="@descricao" name='description' />
+    <meta property="og:description" content="@descricao" />
+
+    <meta property="og:image" content="http://code4lazy.com/content/img/@imagem" />
+
+    <meta content='jquery,javascript,aspnet,net,css,mvc,c#,php,programacao,back-end,front-end,webdesign,bootstrap' name='keywords' />
+    <meta content='oracle,mysql,nhibernate,sql,sqlserver,visual,studio,visualstudio,html' name='keywords' />
+    <meta content='codigo,simples,rapido,objetivo,perguiçoso,lazy,4lazy,code4lazy' name='keywords' />
+    <meta content='follow, all' name='robots' />
+
+    <!-- JAVASCRIPT-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link href="~/Content/css/blog.css" rel="stylesheet" />
+    <link href="~/Content/css/menu.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Google Tag Manager -->
+    <noscript>
+        <iframe src="//www.googletagmanager.com/ns.html?id=GTM-WTPGVP"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            '//www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WTPGVP');</script>
+    <!-- End Google Tag Manager -->
+    @{
+        var visitou = Session["visitou"];
+        if (visitou == null)
+        {
+            visitou = Request.ServerVariables["REMOTE_ADDR"];
+
+            if (visitou.ToString() != "127.0.0.1")
+            {
+                Session["visitou"] = visitou;
+
+                MetodoHelper mhelper = new MetodoHelper();
+                mhelper.ContarVisita(visitou);
+            }
+        }
+    }
+
+    <div class="wrap">
+
+        @Html.Action("MenuSuperior", "Menu")
+        <div class="container body-content">
+            <div class="row">
+                <div class="col-sm-8 col-md-9">
+                    <main>
+                        @RenderBody()
+                    </main>
+                </div>
+                @Html.Action("MenuDireito", "Menu")
+
+            </div>
+            <hr class="divider" />
+            <footer>
+                Copyright @(DateTime.Now.ToString("yyyy") == "2015" ? "2015" : "2015-" + DateTime.Now.ToString("yyyy")) © Code 4 Lazy<br />
+                <strong>Criado e Desenvolvido por <a href="http://www.rafaelgrilli.com/" target="_blank">Rafael Grilli</a></strong>
+            </footer>
+            <a href="#0" class="cd-top">
+                <span class="fa fa-hand-o-up"></span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <script src="~/Scripts/menu.js"></script>
+
+    <script>
+        $(document).ready(function ($) {
+            // browser window scroll (in pixels) after which the "back to top" link is shown
+            var offset = 300,
+                //browser window scroll (in pixels) after which the "back to top" link opacity is reduced
+                offset_opacity = 1200,
+                //duration of the top scrolling animation (in ms)
+                scroll_top_duration = 700,
+                //grab the "back to top" link
+                $back_to_top = $('.cd-top');
+
+            //hide or show the "back to top" link
+            $(window).scroll(function () {
+                ($(this).scrollTop() > offset) ? $back_to_top.addClass('cd-is-visible') : $back_to_top.removeClass('cd-is-visible cd-fade-out');
+                if ($(this).scrollTop() > offset_opacity) {
+                    $back_to_top.addClass('cd-fade-out');
+                }
+            });
+
+            //smooth scroll to top
+            $back_to_top.on('click', function (event) {
+                event.preventDefault();
+                $('body,html').animate({
+                    scrollTop: 0,
+                }, scroll_top_duration
+                );
+            });
+
+        });
+    </script>
+
+    <script>
+        $('nav li').removeClass('active');
+        $('nav li#@ViewBag.Menu').addClass('active');
+    </script>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-66682021-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</body>
+</html>
